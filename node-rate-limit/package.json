@@ -1,0 +1,18 @@
+{
+  "name": "node-rate-limit-example",
+  "version": "1.0.0",
+  "description": "Simple rate limiting example for Node.js/Express (token-bucket)",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": ["rate-limit", "express", "token-bucket"],
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

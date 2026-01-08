@@ -1,0 +1,21 @@
+﻿{
+  "name": "corn-job",
+  "version": "1.0.0",
+  "description": "Example Node.js server with cron job using node-cron",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": ["cron", "node", "node-cron", "express"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.5.0",
+    "express": "^4.18.2",
+    "node-cron": "^3.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
