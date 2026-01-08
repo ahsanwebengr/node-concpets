@@ -1,0 +1,29 @@
+{
+  "name": "node-bullmq-email-example",
+  "version": "1.0.0",
+  "description": "BullMQ queue example for sending emails with a producer and worker",
+  "main": "src/index.js",
+  "scripts": {
+    "start:producer": "node src/producer.js",
+    "start:worker": "node src/worker.js",
+    "start:all": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [
+    "bullmq",
+    "queue",
+    "email",
+    "redis"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bullmq": "^1.87.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "ioredis": "^5.3.2",
+    "nodemailer": "^6.9.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
