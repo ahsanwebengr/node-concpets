@@ -1,40 +1,41 @@
-// Simple in-memory token-bucket rate limiter middleware
-// Configurable tokens (capacity) and refill interval (seconds)
+const rateLimit = require('express-rate-limit');
 
+// Use express-rate-limit under the hood and maintain a lightweight
+// introspection map so admin endpoints can observe recent usage.
 const buckets = new Map();
 
-function createLimiter({ tokens = 10, interval = 60 } = {}) {
-  // tokens = capacity per interval, interval in seconds
-  return function rateLimitMiddleware(req, res, next) {
+const defaultOptions = {
+  windowMs: 60 * 1000, // 1 minute
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => res.status(429).json({ error: 'Too Many Requests' }),
+};
+
+const rl = rateLimit(defaultOptions);
+
+function limiter(req, res, next) {
+  // Call the underlying rate-limit middleware and capture headers it sets
+  rl(req, res, function (err) {
+    if (err) return next(err);
+
     const key = req.headers['x-api-key'] || req.ip;
-    const now = Date.now();
+    const remainingRaw =
+      res.getHeader('RateLimit-Remaining') || res.getHeader('X-RateLimit-Remaining');
+    const limitRaw =
+      res.getHeader('RateLimit-Limit') || res.getHeader('X-RateLimit-Limit');
+    const remaining = remainingRaw !== undefined ? Number(remainingRaw) : null;
+    const limit = limitRaw !== undefined ? Number(limitRaw) : defaultOptions.max;
 
-    const bucket = buckets.get(key) || { tokens: tokens, last: now };
-    // refill based on elapsed time
-    const elapsed = (now - bucket.last) / 1000;
-    const refillTokens = (elapsed / interval) * tokens;
-    bucket.tokens = Math.min(tokens, bucket.tokens + refillTokens);
-    bucket.last = now;
-
-    if (bucket.tokens >= 1) {
-      bucket.tokens -= 1;
-      buckets.set(key, bucket);
-      res.setHeader('X-RateLimit-Limit', tokens);
-      res.setHeader('X-RateLimit-Remaining', Math.floor(bucket.tokens));
-      return next();
-    }
-
-    // too many requests
-    res.setHeader('X-RateLimit-Limit', tokens);
-    res.setHeader('X-RateLimit-Remaining', 0);
-    res.status(429).json({ error: 'Too Many Requests' });
-  };
+    buckets.set(key, { remaining, limit, updated: Date.now() });
+    return next();
+  });
 }
 
 function getBuckets() {
   const out = {};
   for (const [k, v] of buckets.entries()) {
-    out[k] = { tokens: v.tokens, last: v.last };
+    out[k] = { remaining: v.remaining, limit: v.limit, updated: v.updated };
   }
   return out;
 }
@@ -43,4 +44,4 @@ function clearBuckets() {
   buckets.clear();
 }
 
-module.exports = { createLimiter, getBuckets, clearBuckets };
+module.exports = { limiter, getBuckets, clearBuckets };

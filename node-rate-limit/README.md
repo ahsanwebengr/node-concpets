@@ -1,6 +1,6 @@
 # Node Rate Limit Example
 
-Simple token-bucket rate limiter example for Node.js + Express.
+Rate limiter example for Node.js + Express using the `express-rate-limit` npm package (token-bucket style behaviour).
 
 Setup
 
@@ -14,12 +14,17 @@ Endpoints
 
 - `GET /open` — unprotected endpoint
 - `GET /limited` — protected by rate limiter (default: 10 requests per 60s per IP or `X-API-KEY`)
-- `GET /buckets` — view in-memory buckets (for dev/testing)
+- `GET /limited` — protected by rate limiter (default: 10 requests per 60s per IP).
+- `GET /buckets` — view in-memory buckets (for dev/testing; reflects custom limiter state if used).
 - `POST /buckets/clear` — clear all buckets
 
 Configuration
 
-- Edit `src/index.js` to change the limiter: `createLimiter({ tokens: 20, interval: 60 })` for 20 reqs/min.
+-- Edit `src/index.js` to change the limiter configuration. Example using `express-rate-limit`:
+
+```js
+const limiter = rateLimit({ windowMs: 60 * 1000, max: 20 });
+```
 
 Notes
 
