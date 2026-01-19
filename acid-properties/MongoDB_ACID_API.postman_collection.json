@@ -1,0 +1,273 @@
+{
+  "info": {
+    "name": "MongoDB ACID Properties API",
+    "description": "Complete API for demonstrating ACID properties in MongoDB with money transfer operations",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": ["{{base_url}}"],
+          "path": ["health"]
+        }
+      }
+    },
+    {
+      "name": "API Info",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/",
+          "host": ["{{base_url}}"],
+          "path": [""]
+        }
+      }
+    },
+    {
+      "name": "Reset Database",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/reset",
+          "host": ["{{base_url}}"],
+          "path": ["api", "reset"]
+        }
+      }
+    },
+    {
+      "name": "Get All Accounts",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/accounts",
+          "host": ["{{base_url}}"],
+          "path": ["api", "accounts"]
+        }
+      }
+    },
+    {
+      "name": "Create New Account",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"David\",\n  \"balance\": 750\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/accounts",
+          "host": ["{{base_url}}"],
+          "path": ["api", "accounts"]
+        }
+      }
+    },
+    {
+      "name": "Transfer Money - Success Case",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"from\": \"Alice\",\n  \"to\": \"Bob\",\n  \"amount\": 100\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/transfer",
+          "host": ["{{base_url}}"],
+          "path": ["api", "transfer"]
+        }
+      }
+    },
+    {
+      "name": "Transfer Money - Insufficient Funds",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"from\": \"Bob\",\n  \"to\": \"Alice\",\n  \"amount\": 1000\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/transfer",
+          "host": ["{{base_url}}"],
+          "path": ["api", "transfer"]
+        }
+      }
+    },
+    {
+      "name": "Transfer Money - Invalid Account",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"from\": \"NonExistent\",\n  \"to\": \"Alice\",\n  \"amount\": 50\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/transfer",
+          "host": ["{{base_url}}"],
+          "path": ["api", "transfer"]
+        }
+      }
+    },
+    {
+      "name": "Transfer Money - Invalid Amount",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"from\": \"Alice\",\n  \"to\": \"Bob\",\n  \"amount\": -50\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/transfer",
+          "host": ["{{base_url}}"],
+          "path": ["api", "transfer"]
+        }
+      }
+    },
+    {
+      "name": "Get Transaction History",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/transactions",
+          "host": ["{{base_url}}"],
+          "path": ["api", "transactions"]
+        }
+      }
+    },
+    {
+      "name": "Complete ACID Demo Flow",
+      "item": [
+        {
+          "name": "1. Reset Database",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/reset",
+              "host": ["{{base_url}}"],
+              "path": ["api", "reset"]
+            }
+          }
+        },
+        {
+          "name": "2. Check Initial Accounts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/accounts",
+              "host": ["{{base_url}}"],
+              "path": ["api", "accounts"]
+            }
+          }
+        },
+        {
+          "name": "3. Transfer $200 from Alice to Bob",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from\": \"Alice\",\n  \"to\": \"Bob\",\n  \"amount\": 200\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/transfer",
+              "host": ["{{base_url}}"],
+              "path": ["api", "transfer"]
+            }
+          }
+        },
+        {
+          "name": "4. Verify Transfer (Check Balances)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/accounts",
+              "host": ["{{base_url}}"],
+              "path": ["api", "accounts"]
+            }
+          }
+        },
+        {
+          "name": "5. Check Transaction History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/transactions",
+              "host": ["{{base_url}}"],
+              "path": ["api", "transactions"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "mongodb-acid-properties",
+  "version": "1.0.0",
+  "description": "ACID properties in MongoDB with practical examples",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node test-api.js",
+    "test:examples": "node examples.js",
+    "mongodb:start": "start-mongodb.bat",
+    "mongodb:setup": "setup-replica.bat"
+  },
+  "keywords": [
+    "MongoDB",
+    "ACID",
+    "Transactions",
+    "API"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.3",
+    "node-fetch": "^3.3.2"
+  }
+}
