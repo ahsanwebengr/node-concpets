@@ -1,7 +1,7 @@
 {
-  "name": "node-prisma-docker",
+  "name": "node-mongo-docker",
   "version": "1.0.0",
-  "description": "Node.js Express with CORS in Docker",
+  "description": "Node.js Express with CORS and MongoDB in Docker",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js"
@@ -11,7 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^8.0.3"
   },
   "devDependencies": {}
 }

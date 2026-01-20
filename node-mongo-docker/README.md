@@ -1,23 +1,24 @@
-# Node.js Express with CORS in Docker
+# Node.js Express with CORS and MongoDB in Docker
 
-A simple Node.js Express server with CORS enabled, fully containerized with Docker.
+A Node.js Express server with CORS enabled and MongoDB, fully containerized with Docker.
 
 ## Features
 
 - **Express.js**: Lightweight web framework
 - **CORS**: Cross-Origin Resource Sharing enabled
+- **MongoDB**: NoSQL database with Mongoose ODM
 - **Docker**: Containerized deployment
-- **RESTful API**: CRUD operations for users
 
 ## Project Structure
 
 ```
 .
 ├── src/
-│   └── index.js           # Express server with CORS and routes
+│   └── index.js           # Express server with CORS, MongoDB, and routes
 ├── Dockerfile             # Docker image definition
-├── docker-compose.yml     # Single-container setup
+├── docker-compose.yml     # Multi-container setup (Node.js + MongoDB)
 ├── package.json           # Dependencies
+├── .env                   # Environment variables
 └── README.md              # This file
 ```
 
@@ -63,6 +64,7 @@ npm start
 ## Environment Variables
 
 ```env
+MONGO_URI=mongodb://admin:password@localhost:27017/nodedb?authSource=admin
 NODE_ENV=production
 PORT=3000
 ```
